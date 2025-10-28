@@ -26,17 +26,25 @@ class MovieListViewModel: ViewModel() {
     }
 
     fun toggleIsLiked(movie: Movie){
-        val index = DummyMovieData.movies.indexOfFirst {
-            it.title == movie.title
+//        val index = DummyMovieData.movies.indexOfFirst {
+//            it.title == movie.title
+//        }
+//
+//        if(index == -1) return
+//
+//        val updated = DummyMovieData.movies[index].copy(
+//            isFavorite = !DummyMovieData.movies[index].isFavorite
+//        )
+//
+//        DummyMovieData.movies[index] = updated
+//        loadMovie()
+        viewModelScope.launch {
+            if(movie.isFavorite){
+                MovieServerContainer().MovieServerRepository.UnlikeMovie(movie.id)
+            } else {
+                MovieServerContainer().MovieServerRepository.LikeMovie(movie.id)
+            }
+            loadMovie()
         }
-
-        if(index == -1) return
-
-        val updated = DummyMovieData.movies[index].copy(
-            isFavorite = !DummyMovieData.movies[index].isFavorite
-        )
-
-        DummyMovieData.movies[index] = updated
-        loadMovie()
     }
 }

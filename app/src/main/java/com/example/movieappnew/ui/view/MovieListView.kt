@@ -30,7 +30,7 @@ fun MovieListView(viewModel: MovieListViewModel = viewModel(), navController: Na
 //        Text("Movie List", style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold))
         LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(4.dp)) {
             items(movies) { currentMovie ->
-                MovieCard(movie = currentMovie, onToggleLike = {viewModel.toggleIsLiked(currentMovie)}, onCardClick = {navController.navigate("${AppView.MovieDetail.name}/${currentMovie.title}")})
+                MovieCard(movie = currentMovie, onToggleLike = {viewModel.toggleIsLiked(currentMovie)}, onCardClick = {navController.navigate("${AppView.MovieDetail.name}/${currentMovie.id}")})
             }
         }
     }

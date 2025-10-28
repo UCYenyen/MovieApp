@@ -1,27 +1,33 @@
 package com.evan.movieapp2025.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.movieappnew.data.container.MovieServerContainer
 import com.example.movieappnew.ui.model.DummyMovieData
 import com.example.movieappnew.ui.model.Movie
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 class MovieDetailViewModel: ViewModel() {
 
     private val _movie = MutableStateFlow<Movie?>(null)
     val movie: StateFlow<Movie?> = _movie
 
-    fun getMovie(title: String){
-        _movie.value = DummyMovieData.movies.find { it.title == title }
+    fun getMovie(id: Int){
+        viewModelScope.launch {
+            _movie.value = MovieServerContainer().MovieServerRepository.GetMovieById(id)
+        }
     }
 
     fun toggleIsLiked() {
-        val current = _movie.value ?: return
-        val index = DummyMovieData.movies.indexOfFirst { it.title == current.title }
-        if (index != -1) {
-            val updated = current.copy(isFavorite = !current.isFavorite)
-            DummyMovieData.movies[index] = updated
-            _movie.value = updated // update stateflow detail
+        viewModelScope.launch {
+            if(movie.value!!.isFavorite){
+                MovieServerContainer().MovieServerRepository.UnlikeMovie(movie.value!!.id)
+            } else {
+                MovieServerContainer().MovieServerRepository.LikeMovie(movie.value!!.id)
+            }
+            getMovie(movie.value!!.id)
         }
     }
 

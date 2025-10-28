@@ -77,8 +77,8 @@ fun AppRoute() {
                 MovieListView(navController = navController)
             }
 
-            composable(route = AppView.MovieDetail.name + "/{title}") { backStackEntry ->
-                MovieDetailView(title = backStackEntry.arguments?.getString("title")!!)
+            composable(route = AppView.MovieDetail.name + "/{id}") { backStackEntry ->
+                MovieDetailView(id = backStackEntry.arguments?.getString("id")!!.toInt())
             }
 
             composable(route = AppView.AddMovie.name) {
