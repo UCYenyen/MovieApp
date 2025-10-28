@@ -3,6 +3,7 @@ package com.example.movieappnew.data.service
 import com.example.movieappnew.data.dto.RequestLogin
 import com.example.movieappnew.data.dto.RequestRegister
 import com.example.movieappnew.data.dto.ResponseMovies
+import com.example.movieappnew.data.dto.ResponseMoviesItem
 import com.example.movieappnew.data.dto.ResponseStatusLike
 import com.example.movieappnew.data.dto.ResponseToken
 import retrofit2.Response
@@ -17,7 +18,7 @@ interface MovieServerService {
     suspend fun GetMovies(): Response<ResponseMovies>
 
     @GET("api/movies/{id}")
-    suspend fun GetMovieById(@Path("id") id: Int): Response<ResponseMovies>
+    suspend fun GetMovieById(@Path("id") id: Int): Response<ResponseMoviesItem>
 
     @GET("api/movies/{id}/like")
     suspend fun CheckLike(@Path("id") id: Int): Response<ResponseStatusLike>
